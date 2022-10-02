@@ -1,0 +1,139 @@
+Sub alpha()
+
+'Setting up variables
+Dim ticker As String
+Dim yearly_open As Double
+Dim yearly_change As Double
+Dim yearly_percent As Double
+Dim stock_volume As Double
+Dim volume_ticker As String
+Dim lastRow As Long
+Dim Summary_Table_Row As Integer
+Summary_Table_Row = 2
+Dim Setstockopenprice As Boolean
+Dim WS As Worksheet
+Dim Greatest_volume As Double
+Dim Greatest_increase As Double
+Dim increase_ticker As String
+Dim Greatest_decrease As Double
+Dim decrease_ticker As String
+
+'Activating each worksheet
+For Each WS In ActiveWorkbook.Worksheets
+    WS.Activate
+
+'Setting Titles and width columns
+Range("I1").Value = "Ticker"
+Range("I1").ColumnWidth = 7
+Range("J1").Value = "Yearly Change"
+Range("J1").ColumnWidth = 14
+Range("K1").Value = "Yearly Percent"
+Range("K1").ColumnWidth = 14
+Range("L1").Value = "Stock Volume"
+Range("L1").ColumnWidth = 15
+Range("O1").ColumnWidth = 20
+Range("P1").Value = "Ticker"
+Range("P1").ColumnWidth = 7
+Range("Q1").Value = "Value"
+Range("Q1").ColumnWidth = 12
+
+'Finding last row of worksheet
+lastRow = Cells(Rows.Count, "A").End(xlUp).Row
+'Setting values to zero
+Greatest_volume = 0
+Greatest_increase = 0
+Greatest_decrease = 0
+
+    'Iterating through data
+    For i = 2 To lastRow
+
+        'Locking in open price cost for ticker
+        If Setopenprice = False Then
+            'Set open price
+             yearly_open = Cells(i, 3).Value
+            'locks in value
+             Setopenprice = True
+        End If
+        'Searching for break in ticker name
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        'Getting values for variables
+        ticker = Cells(i, 1).Value
+        stock_volume = stock_volume + Cells(i, 7).Value
+            If stock_volume > Greatest_volume Then
+                Greatest_volume = stock_volume
+                volume_ticker = ticker
+            End If
+        'Performing calculations and setting values for variables
+        yearly_change = (Cells(i, 6).Value - yearly_open)
+            
+        yearly_percent = (yearly_change / yearly_open)
+        If yearly_percent > Greatest_increase Then
+                Greatest_increase = yearly_percent
+                increase_ticker = ticker
+                
+            ElseIf yearly_percent < Greatest_decrease Then
+                Greatest_decrease = yearly_percent
+                decrease_ticker = ticker
+            
+            End If
+        'Displaying values in cells
+        Range("I" & Summary_Table_Row).Value = ticker
+            If yearly_change >= 0 Then
+                Cells(Summary_Table_Row, 10).Interior.ColorIndex = 4
+                Range("J" & Summary_Table_Row).Value = yearly_change
+            ElseIf yearly_change <= 0 Then
+                Cells(Summary_Table_Row, 10).Interior.ColorIndex = 3
+                Range("J" & Summary_Table_Row).Value = yearly_change
+            End If
+        Range("K" & Summary_Table_Row).Value = yearly_percent
+        Range("L" & Summary_Table_Row).Value = stock_volume
+        'Formatting column as percentage
+        Range("K" & Summary_Table_Row).NumberFormat = "0.00%"
+        
+            If i = lastRow Then
+                'Setting Title columns
+                Cells(2, 15).Value = "Greatest % increase"
+                Cells(2, 16).Value = increase_ticker
+                Cells(2, 17).Value = Greatest_increase
+                Cells(2, 17).NumberFormat = "0.00%"
+                Cells(3, 15).Value = "Greatest % decrease"
+                Cells(3, 16).Value = decrease_ticker
+                Cells(3, 17).Value = Greatest_decrease
+                Cells(3, 17).NumberFormat = "0.00%"
+                Cells(4, 15).Value = "Greatest total volume"
+                Cells(4, 16).Value = volume_ticker
+                Cells(4, 17).Value = Greatest_volume
+            Else
+            End If
+        
+        
+        'Setting value to next row
+        Summary_Table_Row = Summary_Table_Row + 1
+        'Clearing volume for next ticker
+        stock_volume = 0
+        'Releasing open price for next ticker
+        Setopenprice = False
+    Else
+        'Rolling Calculation for volume of ticker
+        stock_volume = stock_volume + Cells(i, 7).Value
+    End If
+    
+    Next i
+    'Clearing variables for next worksheet
+    lastRow = 0
+    ticker = ""
+    volume_ticker = ""
+    increase_ticker = ""
+    decrease_ticker = ""
+    stock_volume = 0
+    yearly_change = 0
+    yearly_percent = 0
+    yearly_open = 0
+    'Setting Row variable back to 2
+    Summary_Table_Row = 2
+    
+    
+Next WS
+    
+End Sub
+
