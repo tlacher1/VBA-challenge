@@ -15,6 +15,7 @@ Create a script that loops through all the stocks for one year and outputs the f
 6.  Make the appropriate adjustments to your VBA script to enable it to run on every worksheet (that is, every year) at once.
 7.  Make sure to use conditional formatting that will highlight positive change in green and negative change in red.
 
+## Image Results of script:
 <p align="center">
 <img src="https://github.com/tlacher1/VBA-challenge/blob/36e618907b1a35c77ebbe8dfb30ea6aaabe05c9c/2018%20Image.png" />
 <p align="center">
