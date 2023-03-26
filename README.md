@@ -10,6 +10,10 @@ Create a script that loops through all the stocks for one year and outputs the f
 2.  Yearly change from the opening price at the beginning of a given year to the closing price at the end of that year.
 
 3.  The percentage change from the opening price at the beginning of a given year to the closing price at the end of that year.
+4.  The total stock volume of the stock. 
+5.  Add functionality to your script to return the stock with the "Greatest % increase", "Greatest % decrease", and "Greatest total volume".
+6.  Make the appropriate adjustments to your VBA script to enable it to run on every worksheet (that is, every year) at once.
+7.  Make sure to use conditional formatting that will highlight positive change in green and negative change in red.
 
 <p align="center">
 <img src="https://github.com/tlacher1/VBA-challenge/blob/36e618907b1a35c77ebbe8dfb30ea6aaabe05c9c/2018%20Image.png" />
